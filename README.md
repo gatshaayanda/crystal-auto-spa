@@ -1,20 +1,40 @@
-# Big Brothers Car Wash
+# Crystal Auto Spa
 
-Customer-first, mobile-first car-wash PWA for Big Brothers Car Wash in G-West, Gaborone, Botswana. This repository contains the actual Big Brothers application; it is not the generic Iteration 13 Service Studio demo.
+Mobile-first customer and staff experience for **Crystal Auto Spa** in **Mogoditshane, Botswana**.
 
-## Customer journey
+The app is adapted from the selected Big Brothers Car Wash foundation. It retains the working customer, staff, booking, walk-in, account, receipt, notification, chatbot and PWA workflows while replacing the source business identity and infrastructure configuration.
 
-1. **Join the walk-in queue.** The customer enters their name and WhatsApp number, optionally describes their car, selects an active admin-published priced service or proposes a price, and can add notes. A proposed price is not the final agreed charge.
-2. **Send the app link to WhatsApp.** Only after the server confirms the queue entry, the handoff screen offers **Send app link to my WhatsApp**. It opens a prefilled WhatsApp message addressed to the number entered. The person must check the recipient and press **Send** themselves. A copy-link fallback is available. Offline drafts are clearly identified and do not show the successful queue handoff until synchronization succeeds.
-3. **Wait and race.** The handoff screen links to Big Brothers Racing. On the homepage, the customer account is above the racing section, and the racing section sits immediately above the footer.
-4. **Walk-in receipt issued immediately.** After the queue entry is confirmed in Firestore, the app automatically creates a secure branded walk-in receipt and PDF link. It records the customer's details, service, reference and only the price information actually known. A published service price is labelled as published; a customer-proposed amount is clearly marked as not yet accepted. No payment or completed wash is implied. The receipt can be opened or shared from the customer handoff and recovered by staff without changing queue status. Any later final transaction receipt must use separately verified final-charge/payment facts.
-5. **Return.** Customers can open My BB CW Account for their own account/receipts and request a future wash. Booking requests remain pending until staff confirm them. Reminder and announcement notifications are opt-in.
+## Customer experience
+- Book a wash or submit a walk-in request.
+- See active services and prices published by staff; unconfigured services/prices are not invented.
+- Receive clear requested, pending, server-confirmed and offline-draft states.
+- Use My Account for visit history, receipts and repeat bookings.
+- Receive a secure walk-in ticket after the server confirms the queue entry. A ticket is not proof of a completed wash or payment.
+- Prepare a WhatsApp handoff; the customer must press Send themselves.
 
-## Staff workflow
+## Staff experience
+The protected `/admin` workspace retains bookings, queue, services, business settings, gallery, reviews, loyalty, racing activity and customer inbox operations. Staff authorization is enforced server-side and by Firestore rules. Service catalogue and prices are managed by staff; this repository does not seed unconfirmed business prices or hours.
 
-Open **Staff sign in** from the footer. Authorized staff can manage bookings and walk-in queue statuses, review customer details, record final charges/payment status for completed queue jobs, create/reuse receipt links, prepare WhatsApp/email receipt messages, manage services/settings, and review racing activity. Staff access must remain protected by the existing authorization checks and 24-hour session policy.
+## Technology and media
+- Next.js 15, React 19 and TypeScript.
+- Firebase Authentication and Firestore for identity and shared business records.
+- **UploadThing for media uploads** (service media, gallery and consent-based customer submissions).
+- PWA installation, public offline shell and optional racing practice.
+- Vercel Analytics and Speed Insights.
 
-Receipt links are time-limited, unguessable links scoped to a single receipt. A receipt link is not proof of account ownership. Account claim must use the receipt's verified claim flow; never merge records based only on a typed phone number.
+Firebase Storage is not used. There is no `storage.rules` file or Firebase Storage deployment configuration. Firestore security rules and indexes remain separate.
+
+## Owner-managed configuration
+The owner will create and configure the independent Firebase project/database. No source-project ID or credentials are included. Copy `.env.example` to `.env.local` and provide the values once the project is ready.
+
+Required configuration includes:
+- Public Firebase web config: `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID`.
+- Server Firebase service account JSON: `FIREBASE_ADMIN_KEY`; optionally set `FIREBASE_PROJECT_ID` if required by the owner's service-account setup.
+- Staff sign-in and reminder secrets: `CRYSTAL_AUTO_SPA_OPERATIONS_WORD`, `CRYSTAL_AUTO_SPA_REMINDER_CRON_SECRET`.
+- Media upload token: `UPLOADTHING_TOKEN`.
+- Push notifications: `NEXT_PUBLIC_FIREBASE_VAPID_KEY` when configured.
+
+Keep real values in local/deployment secret stores only. Do not commit credentials.
 
 ## Development
 
@@ -26,36 +46,13 @@ npm run verify:identity
 npm run lint
 npx tsc --noEmit
 npm run build
+npm run dev
 ```
 
-Configure local values using `.env.example`. Public Firebase web configuration is intended to reuse the existing Vula Firebase project and its data, as documented in that example. Server-only credentials and operations secrets must remain in environment variables and must never be committed. Do not make Firestore or Storage public to bypass permission errors.
+The build generates the Crystal Auto Spa PWA PNG icons and prepares the inherited racing assets. Build success does not prove Firebase configuration, UploadThing credentials, live notifications, WhatsApp handoff, physical-device installation or deployment.
 
-The build prepares the racing assets and runs identity verification. Build/test success does not prove that production environment variables, Firebase rules, live WhatsApp handoff, push delivery or Vercel deployment are configured correctly.
-
-## Protected PWA installation and offline behavior
-
-Installation is protected infrastructure. Preserve the approved Africhiko installation behavior and the current project-specific branding: capture the real `beforeinstallprompt` event early, retain it, and invoke the native prompt only from the user's explicit branded install-button click when available. Keep the dismissible branded card, responsive placement, close/reopen behavior, embedded-browser handoff, iPhone Safari Share → Add to Home Screen guidance, service-worker registration, update/refresh behavior, offline fallback and cache isolation intact. Do not replace the native prompt with a fake prompt, duplicate banner, alert or dead button. Do not modify install or service-worker files for unrelated queue, receipt, account or game work.
-
-Offline queue drafts remain local until server sync succeeds. Do not describe local data as shared or tell a customer they are in the staff queue until Firestore confirms the write.
-
-The three Big Brothers wash/location clips (approximately 104 MB total) can be saved explicitly from the Big Brothers Racing page while online. The save action checks available browser storage where supported, reports download progress, verifies saved cache entries and keeps already-saved clips if a later download fails. Once saved, the clips are served from the isolated `big-brothers-media-v2` cache and the service worker supports byte-range playback for seeking. The homepage hero uses a branded fallback if its wash-bay video is not available offline. Video downloads are optional and never block queue intake.
-
-## QA checklist
-
-- On a narrow phone screen, submit a valid queue entry and confirm the shared staff queue receives it once.
-- Confirm invalid WhatsApp numbers are rejected before submission.
-- Confirm the post-submit handoff opens WhatsApp with the correct entered number and app URL, and that the customer must press Send. Test the copy-link fallback too.
-- Disconnect the network before submitting: verify the entry is labelled device-local and the successful WhatsApp handoff only appears after confirmed sync.
-- In staff operations, move a test entry through waiting → in service → completed; record the actual charge/payment state; create and open the receipt; prepare the WhatsApp message; verify the PDF download and receipt expiry/revocation behavior.
-- Confirm receipt account-claim is optional and verifies ownership, and that a customer cannot access another customer's account/history.
-- Verify account-before-game order and that Big Brothers Racing remains immediately above the homepage footer. Test racing controls and progression separately; this work must not alter game mechanics.
-- Test booking availability and pending/confirmed states, notification opt-in, guest/session clearing on the shared staff phone, PWA install/update/offline behavior, and responsive layouts.
-- Run identity verification, lint, TypeScript and production build. Test the deployed app and real WhatsApp/device behavior separately. A GitHub push or successful build does not prove deployment success.
-
-## Source of truth
-
-Follow [AGENTS.md](./AGENTS.md) before implementation. Preserve working behavior and inspect the actual repository before making changes. Never force-push or rewrite history to resolve a source mismatch.
+## Protected behavior
+Read [AGENTS.md](./AGENTS.md) before changing the application. Preserve the native PWA installation lifecycle, offline privacy boundaries, chatbot behavior, customer ownership, staff authorization, receipt expiry and racing mechanics. The actual Iteration 13 visual reference is `gatshaayanda/iteration13/docs/assets/washride-home-reference.jpeg`; use it for visual quality and compactness, not for WashRide branding.
 
 ## Release checkpoint
-
-After a fresh push to `main`, verify GitHub Actions and the Vercel deployment independently. A new commit requests another build attempt; it does not prove that the build or production deployment succeeded.
+After a push to `main`, verify GitHub checks and Vercel deployment independently. A push requests a build; it does not prove deployment.

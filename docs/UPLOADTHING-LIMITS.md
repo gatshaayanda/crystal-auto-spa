@@ -1,10 +1,12 @@
-# UploadThing file size limits
+# Crystal Auto Spa — UploadThing limits
 
-Iteration 13's UploadThing router is configured for one file per upload:
+Crystal Auto Spa uses UploadThing for service media, staff gallery uploads and customer ride-photo/video submissions. Firebase Storage is not used.
+
+The current UploadThing router accepts one file per upload:
 - **Images:** up to 4 MB
 - **Videos:** up to 16 MB
 - **PDFs:** up to 4 MB
 
-These are this repository's configured endpoint limits, not a guarantee about the connected UploadThing account's plan, environment configuration, or network throughput. The admin media picker validates image/video type and size before upload and reports progress when UploadThing provides progress events. Uploading requires a working internet connection; selecting or capturing a file offline does not upload or publish it.
+These are the repository's endpoint limits, not a guarantee about the connected UploadThing account's plan or network throughput. Client validation should match the router. Staff uploads require a verified staff session. Customer ride media requires a valid, unexpired receipt token and explicit consent; submissions remain pending moderation until staff approves them.
 
-If an upload stalls or is rejected despite meeting these configured limits, check the deployment's UploadThing credentials, endpoint logs, network connection, and current provider plan/settings. Do not increase the limits without confirming the provider accepts them.
+Uploads require an internet connection. A selected file or completed storage upload alone is not a saved gallery item or a public post: the corresponding Firestore metadata write must also succeed. If an upload stalls or is rejected, check `UPLOADTHING_TOKEN`, UploadThing endpoint logs, network connectivity and the provider's current plan/settings. Do not add Firebase Storage or storage rules as a workaround.
