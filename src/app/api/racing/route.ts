@@ -13,12 +13,12 @@ const divisions = [
 const rewards = [0, 150, 75, 45];
 type Racer = { id: string; alias: string; division: number; wins: number; credits: number; upgrade: number; best: Record<string, number>; history: Array<Record<string, unknown>>; createdAt: string; updatedAt: string };
 function adminApp() {
-  const existing = getApps().find(app => app.name === "big-brothers-operations");
+  const existing = getApps().find(app => app.name === "crystal-auto-spa-operations");
   if (existing) return existing;
   const raw = process.env.FIREBASE_ADMIN_KEY;
   if (!raw) throw new Error("Racing sync is not configured on the server.");
   const serviceAccount = JSON.parse(raw) as Record<string, unknown>;
-  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "big-brothers-operations");
+  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]) }, "crystal-auto-spa-operations");
 }
 async function identity(request: Request) {
   const token = request.headers.get("authorization")?.match(/^Bearer (.+)$/i)?.[1];
