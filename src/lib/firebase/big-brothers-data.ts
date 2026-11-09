@@ -1,6 +1,6 @@
 "use client";
 
-import { collection, deleteDoc, doc, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { collection, deleteDoc, deleteField, doc, onSnapshot, query, setDoc, updateDoc, where } from "firebase/firestore";
 import type { Unsubscribe } from "firebase/firestore";
 import { db } from "@/lib/firebase/client";
 
@@ -57,7 +57,8 @@ export function subscribeSettings(cb: (settings: Record<string, unknown> | null)
 }
 export async function saveService(data: { id?: string; name: string; description: string; category: string; price?: number; active: boolean }) {
   const ref = data.id ? doc(db, "services", data.id) : doc(collection(db, "services"));
-  await setDoc(ref, { ...data, id: ref.id, updatedAt: new Date().toISOString() }, { merge: true });
+  const payload = { ...data, id: ref.id, updatedAt: new Date().toISOString(), price: data.price === undefined ? deleteField() : data.price };
+  await setDoc(ref, payload, { merge: true });
 }
 export async function deleteService(id: string) {
   if (!id.trim()) throw new Error("Choose a service before deleting it.");
