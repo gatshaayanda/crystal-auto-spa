@@ -131,7 +131,7 @@ export default function LocationWeather({ showLocationGuide = true }: { showLoca
 
   const updated = weather?.time ? new Date(weather.time).toLocaleTimeString("en-BW", { hour: "2-digit", minute: "2-digit", timeZone: "Africa/Gaborone" }) : "";
   const localHour = Number(new Intl.DateTimeFormat("en-GB", { hour: "2-digit", hourCycle: "h23", timeZone: "Africa/Gaborone" }).format(new Date()));
-  const greeting = localHour < 11 ? "Dumela, G-West!" : localHour < 17 ? "Eita, G-West!" : "Good evening, G-West!";
+  const greeting = localHour < 11 ? "Dumela, Mogoditshane!" : localHour < 17 ? "Eita, Mogoditshane!" : "Good evening, Mogoditshane!";
   const weatherMood = !weather ? { emoji: "🤝", title: "Your Brothers have your back.", detail: "Live conditions are taking a break. You can still request a wash and the team will confirm availability." }
     : weather.weather_code >= 51 && weather.weather_code <= 82 ? { emoji: "🌧️", title: "A wet one out there.", detail: "Take your time. You can request a wash and check the best timing with the team." }
     : weather.weather_code >= 95 ? { emoji: "⛈️", title: "Stormy skies in Gaborone.", detail: "Put safety first. Check with the team before making the trip." }
@@ -144,7 +144,7 @@ export default function LocationWeather({ showLocationGuide = true }: { showLoca
     <section className="big-brothers-section location-weather-section" aria-label="Gaborone weather">
       <div className="bb-weather-card">
         <div className="bb-weather-main">
-          <p className="big-brothers-eyebrow">🚘 BIG BROTHERS DAILY DRIVE · G-WEST</p>
+          <p className="big-brothers-eyebrow">🚘 BIG BROTHERS DAILY DRIVE · MOGODITSHANE</p>
           <h3 className="bb-daily-greeting">{greeting}</h3>
           <p className="bb-daily-message"><span aria-hidden="true">{weatherMood.emoji}</span> <strong>{weatherMood.title}</strong> {weatherMood.detail}</p>
           <p className="bb-weather-condition-label">CURRENT CONDITIONS</p>

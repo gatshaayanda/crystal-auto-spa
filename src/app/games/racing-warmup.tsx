@@ -43,7 +43,7 @@ export default function RacingWarmup({ embedded = false, startExpanded = false }
   const cornerSkillRef = useRef({ brakedForCorner: false, turnedIn: false, exitBoostUntil: 0 });
   const [boostActive, setBoostActive] = useState(false);
   const [toast, setToast] = useState<{ text: string; kind: "success" | "error" | "info" } | null>(null);
-  const [businessName, setBusinessName] = useState("Big Brothers Car Wash");
+  const [businessName, setBusinessName] = useState("Crystal Auto Spa");
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   phaseRef.current = phase;
 
@@ -495,7 +495,7 @@ export default function RacingWarmup({ embedded = false, startExpanded = false }
   if (embedded && !expanded) return <div className="race-inline-promo"><div><p className="big-brothers-eyebrow">BIG BROTHERS RACING · QUICK BREAK</p><h2>Take a quick lap.</h2><p>A little circuit practice while you wait. Your wash booking stays right where you left it.</p></div><button type="button" className="big-brothers-button primary" onClick={() => setExpanded(true)}>Play now ↗</button></div>;
 
   return <div className={"big-brothers race-hub" + (embedded ? " race-hub-embedded" : "")}>
-    {!embedded && <><div className="big-brothers-status"><span className="status-dot online" />Big Brothers Racing · solo circuit practice</div><header className="big-brothers-nav"><Link href="/" className="big-brothers-brand"><span className="big-brothers-mark">V</span><span>{businessName}<small>Racing warm-up</small></span></Link><nav><Link href="/#request">Book a wash</Link><Link href="/account">My Wash</Link></nav></header><section className="big-brothers-section warmup-intro"><p className="big-brothers-eyebrow">BIG BROTHERS RACING · SOLO PRACTICE</p><h1>Find your racing line.</h1><p>Follow the recommended line: brake before turn-in, ease off through the apex, then build throttle on exit. Save NOS for straights.</p></section></>}
+    {!embedded && <><div className="big-brothers-status"><span className="status-dot online" />Crystal Auto Spa Racing · solo circuit practice</div><header className="big-brothers-nav"><Link href="/" className="big-brothers-brand"><span className="big-brothers-mark">V</span><span>{businessName}<small>Racing warm-up</small></span></Link><nav><Link href="/#request">Book a wash</Link><Link href="/account">My Wash</Link></nav></header><section className="big-brothers-section warmup-intro"><p className="big-brothers-eyebrow">BIG BROTHERS RACING · SOLO PRACTICE</p><h1>Find your racing line.</h1><p>Follow the recommended line: brake before turn-in, ease off through the apex, then build throttle on exit. Save NOS for straights.</p></section></>}
     {embedded && <div className="race-inline-heading"><div><p className="big-brothers-eyebrow">BIG BROTHERS RACING · CIRCUIT PRACTICE</p><h2>Find your racing line.</h2><p>One more lap? Smooth corners, clean exits, well-timed NOS.</p></div><button type="button" className="big-brothers-button secondary" onClick={() => { if (phaseRef.current === "running") pauseRace(); setExpanded(false); }}>Close game ×</button></div>}
     <section className="big-brothers-section warmup-game">
       <div className="warmup-hud warmup-circuit-hud"><div><span>Speed</span><strong>{Math.round(speed)} <small>km/h</small></strong></div><div><span>Lap</span><strong>{lap}</strong></div><div><span>Current lap</span><strong>{fmt(lapTime)}</strong></div><div><span>Best lap</span><strong>{fmt(bestLap)}</strong></div></div>

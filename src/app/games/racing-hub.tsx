@@ -36,7 +36,7 @@ export default function RacingHub({ embedded = false }: RacingHubProps) {
   const [wheelRotation, setWheelRotation] = useState(0);
   const wheelRef = useRef<HTMLButtonElement>(null);
   const steeringStartAngle = useRef<number | null>(null);
-  const [businessName, setBusinessName] = useState("Big Brothers Car Wash");
+  const [businessName, setBusinessName] = useState("Crystal Auto Spa");
   const [toast, setToast] = useState<{ message: string; kind: "info" | "success" | "error" } | null>(null);
   const showBigBrothersToast = useCallback((message: string, kind: "info" | "success" | "error" = "info") => setToast({ message, kind }), []);
   const controlsRef = useRef({ accelerate: false, brake: false, boost: false, steer: 0 });
@@ -228,7 +228,7 @@ export default function RacingHub({ embedded = false }: RacingHubProps) {
   if (embedded && !expanded) return <div className="race-inline-promo"><div><p className="big-brothers-eyebrow">BIG BROTHERS RACING · QUICK BREAK</p><h2>Got a minute? Take a lap.</h2><p>A quick 500 m drive. Find your rhythm and get back to your wash booking whenever you&apos;re ready.</p></div><button type="button" className="big-brothers-button primary" onClick={() => setExpanded(true)}>Play now ↗</button></div>;
   return <div className={"vula race-hub" + (embedded ? " race-hub-embedded" : "")}>
     {toast && <div role="status" aria-live="polite" style={{ position: "fixed", zIndex: 1000, top: "max(12px, env(safe-area-inset-top))", left: "50%", transform: "translateX(-50%)", width: "min(92vw, 460px)", padding: "12px 16px", borderRadius: 12, color: "#fff", background: toast.kind === "error" ? "#8f2929" : toast.kind === "success" ? "#245c36" : "#26352d", boxShadow: "0 8px 28px rgba(0,0,0,.25)", fontSize: 14, fontWeight: 600, textAlign: "center", pointerEvents: "none" }}>{toast.message}</div>}
-    {!embedded && <><div className="big-brothers-status"><span className="status-dot online" />Big Brothers Racing · 2D warm-up · local test only</div>
+    {!embedded && <><div className="big-brothers-status"><span className="status-dot online" />Crystal Auto Spa Racing · 2D warm-up · local test only</div>
     <header className="big-brothers-nav"><Link href="/" className="big-brothers-brand"><span className="big-brothers-mark">BB</span><span>{businessName}<small>Racing warm-up</small></span></Link><nav><Link href="/#request">Book a wash</Link><Link href="/#my-wash">My Wash</Link></nav></header>
     <section className="big-brothers-section warmup-intro"><p className="big-brothers-eyebrow">BIG BROTHERS RACING · MECHANICS TEST</p><h1>Take the warm-up lap.</h1><p>A simple top-down 2D driving test. Steer freely, hit NOS for a burst of speed, and finish 500 m. We can tune these mechanics before bringing them into the in-account racing experience.</p><p className="warmup-boundary">This prototype does not use accounts, credits, upgrades, bookings, loyalty or receipts. Your controls and race run only in this open page.</p></section></>}
     {embedded && <div className="race-inline-heading"><div><p className="big-brothers-eyebrow">BIG BROTHERS RACING · 500 M</p><h2>Take the warm-up lap.</h2><p>Steer freely and use NOS. Finish the run, then get back to your car wash.</p></div><button type="button" className="big-brothers-button secondary" onClick={() => { if (phaseRef.current === "running") pauseRace(); setExpanded(false); }}>Close game ×</button></div>}
