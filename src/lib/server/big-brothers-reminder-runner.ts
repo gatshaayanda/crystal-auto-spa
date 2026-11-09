@@ -8,7 +8,7 @@ function adminApp() {
   const raw = process.env.FIREBASE_ADMIN_KEY;
   if (!raw) throw new Error("FIREBASE_ADMIN_KEY is missing.");
   const serviceAccount = JSON.parse(raw) as Record<string, unknown>;
-  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "crystal-auto-spa-reminders");
+  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]) }, "crystal-auto-spa-reminders");
 }
 
 export async function runVulaBookingReminders() {

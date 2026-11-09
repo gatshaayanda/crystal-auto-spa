@@ -11,7 +11,7 @@ export function bigBrothersAdminApp() {
   let serviceAccount: Record<string, unknown>;
   try { serviceAccount = JSON.parse(raw) as Record<string, unknown>; }
   catch { throw new Error("FIREBASE_ADMIN_KEY must contain valid service-account JSON."); }
-  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "crystal-auto-spa-operations");
+  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]) }, "crystal-auto-spa-operations");
 }
 
 export async function requireBigBrothersStaff(request: Request) {
