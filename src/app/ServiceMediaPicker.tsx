@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { generateReactHelpers } from "@uploadthing/react";
 import type { OurFileRouter } from "@/app/api/uploadthing/core";
+import { auth } from "@/lib/firebase/client";
 
 const { useUploadThing } = generateReactHelpers<OurFileRouter>();
 
@@ -20,6 +21,11 @@ export default function ServiceMediaPicker({ value, type, online, onChange, onUp
   const [uploadProgress, setUploadProgress] = useState(0);
   const [urlDraft, setUrlDraft] = useState(type === "video" ? value : "");
   const { startUpload, isUploading } = useUploadThing("fileUploader", {
+    headers: async () => {
+      const user = auth.currentUser;
+      if (!user) throw new Error("Staff sign-in is required to upload service media.");
+      return { Authorization: "Bearer " + await user.getIdToken() };
+    },
     onUploadProgress: (progress) => setUploadProgress(Math.max(0, Math.min(100, Math.round(progress)))),
     onClientUploadComplete: (files) => {
       onUploadingChange(false);
