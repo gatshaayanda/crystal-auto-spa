@@ -51,7 +51,7 @@ if (exists(".firebaserc")) failures.push("Remove the inherited Firebase project 
 if (exists("storage.rules")) failures.push("Firebase Storage rules must not be part of this project; media uploads use UploadThing.");
 if (read("firebase.json").includes('"storage"')) failures.push("Firebase CLI config still references Firebase Storage.");
 const envExample = read(".env.example");
-if (envExample.includes("vulas-car-wash") || /firebase\\/storage|storage\\.rules|uploadBytes\\(|getDownloadURL\\(/.test(envExample)) {
+if (envExample.includes("vulas-car-wash") || /firebase\/storage|storage\.rules|uploadBytes\(|getDownloadURL\(/.test(envExample)) {
   failures.push("Environment template still references the inherited Firebase project or Firebase Storage media integration.");
 }
 // NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET is part of Firebase's web-app configuration;
