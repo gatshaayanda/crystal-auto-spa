@@ -1,0 +1,133 @@
+/* Crystal Auto Spa visual identity — preserves inherited workflow and install behavior. */
+:root {
+  --crystal-navy: #06152d;
+  --crystal-ink: #0a1d38;
+  --crystal-blue: #176fe0;
+  --crystal-ice: #a8e5ff;
+  --crystal-line: #d7e6f7;
+  --crystal-muted: #5e7089;
+}
+.vula {
+  --ink: var(--crystal-ink);
+  --paper: #ffffff;
+  --brand-red: var(--crystal-blue);
+  --line: var(--crystal-line);
+  --muted: var(--crystal-muted);
+}
+.big-brothers-status { background: var(--crystal-navy); color: #f4f9ff; }
+.big-brothers-mark {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #0b2b58, #176fe0 58%, #a8e5ff);
+  color: #fff;
+  box-shadow: 0 5px 18px #176fe044;
+  transform: none;
+}
+.big-brothers-button.primary,
+.big-brothers-cta,
+.submit-button {
+  background: linear-gradient(110deg, #176fe0, #0b4fae);
+  border: 1px solid #6fcaff;
+  color: #fff !important;
+  border-radius: 10px;
+}
+.big-brothers-button.primary:hover,
+.big-brothers-cta:hover { background: linear-gradient(110deg, #2585f5, #145ec5); }
+.bb-cinematic-home { background: var(--crystal-navy); color: #f7fbff; }
+.bb-cinematic-home .cinematic-nav {
+  background: linear-gradient(180deg, rgba(3, 13, 30, .94), rgba(3, 13, 30, .12));
+}
+.bb-cinema-hero {
+  min-height: clamp(590px, 86svh, 830px);
+  background: var(--crystal-navy);
+}
+.bb-cinema-video video { filter: saturate(.92) contrast(1.08); }
+.bb-cinema-video-fallback {
+  background: radial-gradient(ellipse at 72% 24%, #174d89, #06152d 70%);
+}
+.bb-cinema-shade {
+  background:
+    linear-gradient(90deg, rgba(3, 13, 30, .92), rgba(3, 13, 30, .66) 42%, rgba(3, 13, 30, .14)),
+    linear-gradient(0deg, rgba(3, 13, 30, .76), transparent 42%);
+}
+.bb-cinema-copy .big-brothers-eyebrow,
+.bb-cinema-kicker { color: var(--crystal-ice); }
+.bb-cinema-copy h1 em,
+.bb-destination-heading h2 em,
+.bb-film-heading h2 em { color: #69c8ff; }
+.bb-cinema-intro { color: #e0efff; }
+.bb-cinema-live .status-dot { background: #69d4ff; }
+.bb-cinema-primary-action {
+  min-height: 62px;
+  padding: 0 28px;
+  border: 1px solid #85d8ff;
+  border-radius: 999px;
+  background: linear-gradient(110deg, #1688ff, #0752bf);
+  box-shadow: 0 12px 34px #006dff55, inset 0 1px #ffffff55;
+  color: #fff;
+}
+.bb-cinema-primary-action:hover { background: linear-gradient(110deg, #35a1ff, #176fe0); }
+.bb-cinema-shortcuts a,
+.bb-cinema-shortcuts button { color: #e9f5ff; }
+.bb-destination-section { background: #f3f8ff; color: var(--crystal-ink); }
+.bb-destination-heading .big-brothers-eyebrow,
+.bb-film-heading .big-brothers-eyebrow { color: #176fe0; }
+.bb-destination-grid > *,
+.bb-film-card { border-color: var(--crystal-line); }
+.customer-account-page { background: #f4f8fd; color: var(--crystal-ink); }
+.customer-account-header { border-bottom-color: var(--crystal-line); }
+.customer-account-brand { color: var(--crystal-ink); }
+.customer-account-mark {
+  background: linear-gradient(145deg, #0b2b58, #176fe0 58%, #a8e5ff);
+  color: #fff;
+  border-radius: 13px;
+}
+.customer-account-home-link { color: #176fe0; }
+.customer-account-cinematic-intro {
+  background:
+    radial-gradient(ellipse at 88% 12%, #4aa9ff40, transparent 42%),
+    linear-gradient(115deg, #06152d 0%, #0b2b58 58%, #1459a7 100%);
+  border: 1px solid #2d78c8;
+}
+.customer-account-card,
+.customer-account-status {
+  border-color: var(--crystal-line);
+  box-shadow: 0 8px 24px rgba(9, 42, 83, .045);
+}
+.customer-account-card h2 { color: var(--crystal-ink); }
+.receipt-page { background: #f3f8ff; color: var(--crystal-ink); }
+.receipt-card { border-color: var(--crystal-line); box-shadow: 0 20px 60px rgba(7, 34, 68, .10); }
+.receipt-mark { background: var(--crystal-navy); color: var(--crystal-ice); }
+.receipt-reference { background: #edf6ff; color: var(--crystal-ink); }
+.receipt-total { background: var(--crystal-navy); }
+.receipt-total strong { color: var(--crystal-ice); }
+.admin-vula { background: #f4f8fd; color: var(--crystal-ink); }
+.admin-vula .admin-metrics > div { background: #eaf4ff; border: 1px solid var(--crystal-line); }
+.admin-vula .admin-tabs button.active { background: var(--crystal-navy); color: #fff; }
+.admin-vula .admin-record,
+.admin-vula .admin-editor,
+.admin-vula .admin-empty { border-color: var(--crystal-line); }
+.record-status { color: #176fe0; }
+.iphoneGuide { --brand: #176fe0; }
+.af-install-card {
+  border-color: #2468b5 !important;
+  background: linear-gradient(135deg, #071a35, #0b2b58) !important;
+  color: #fff !important;
+  box-shadow: 0 16px 42px #06152d44 !important;
+}
+.af-install-brand strong,
+.af-install-brand small { color: #fff !important; }
+.af-install-mark { background: linear-gradient(145deg, #176fe0, #a8e5ff) !important; color: #fff !important; }
+.af-install-action { background: linear-gradient(110deg, #1688ff, #0752bf) !important; color: #fff !important; }
+@media (max-width: 760px) {
+  .bb-cinema-hero { min-height: min(780px, 88svh); }
+  .bb-cinema-copy { margin-top: 42px; padding: 34px 22px 42px; }
+  .bb-cinema-kicker { margin-top: 24px; }
+  .bb-cinema-copy h1 { font-size: clamp(46px, 12vw, 68px); }
+  .bb-cinema-intro { margin: 18px 0 22px; font-size: 14px; line-height: 1.6; }
+  .bb-cinema-actions { gap: 12px; }
+  .bb-cinema-primary-action { min-height: 58px; }
+  .admin-vula .admin-record { align-items: flex-start; gap: 12px; }
+}
