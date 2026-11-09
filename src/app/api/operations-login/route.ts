@@ -13,7 +13,16 @@ function getAdminApp() {
   let serviceAccount: Record<string, unknown>;
   try { serviceAccount = JSON.parse(raw) as Record<string, unknown>; }
   catch { throw new Error("FIREBASE_ADMIN_KEY must contain valid service-account JSON."); }
-  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]) }, "crystal-auto-spa-operations");
+  const serviceProjectId = String(serviceAccount.project_id || "");
+  const configuredProjectId = process.env.FIREBASE_PROJECT_ID || process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "";
+  if (!configuredProjectId) throw new Error("Missing FIREBASE_PROJECT_ID environment variable.");
+  if (!serviceProjectId || serviceProjectId !== configuredProjectId) {
+    throw new Error("FIREBASE_ADMIN_KEY belongs to a different Firebase project. Use the Atlas service account and set FIREBASE_PROJECT_ID to match it.");
+  }
+  return initializeApp({
+    credential: cert(serviceAccount as Parameters<typeof cert>[0]),
+    projectId: configuredProjectId,
+  }, "crystal-auto-spa-operations");
 }
 function matchesWord(input: string, expected: string) {
   const a = createHash("sha256").update(input).digest(), b = createHash("sha256").update(expected).digest();
