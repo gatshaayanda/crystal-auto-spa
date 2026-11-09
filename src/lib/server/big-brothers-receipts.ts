@@ -4,14 +4,14 @@ import { getAuth } from "firebase-admin/auth";
 import { getFirestore } from "firebase-admin/firestore";
 
 export function bigBrothersAdminApp() {
-  const existing = getApps().find(app => app.name === "big-brothers-operations");
+  const existing = getApps().find(app => app.name === "crystal-auto-spa-operations");
   if (existing) return existing;
   const raw = process.env.FIREBASE_ADMIN_KEY;
   if (!raw) throw new Error("Secure receipts require FIREBASE_ADMIN_KEY on the server.");
   let serviceAccount: Record<string, unknown>;
   try { serviceAccount = JSON.parse(raw) as Record<string, unknown>; }
   catch { throw new Error("FIREBASE_ADMIN_KEY must contain valid service-account JSON."); }
-  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "big-brothers-operations");
+  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "crystal-auto-spa-operations");
 }
 
 export async function requireBigBrothersStaff(request: Request) {
@@ -154,8 +154,8 @@ export function publicReceipt(receipt: Record<string, unknown>): PublicReceipt {
     receiptRef: String(receipt.receiptRef || ""),
     receiptKind: String(receipt.receiptKind || "completed-receipt"),
     priceNote: String(receipt.priceNote || ""),
-    businessName: "Big Brothers Car Wash",
-    locationName: "G-West, Botswana",
+    businessName: "Crystal Auto Spa",
+    locationName: "Mogoditshane, Botswana",
     customerName: String(receipt.customerName || ""),
     phone: String(receipt.phone || ""),
     email: String(receipt.email || ""),

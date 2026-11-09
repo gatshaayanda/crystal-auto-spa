@@ -7,14 +7,14 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 function adminApp() {
-  const existing = getApps().find(app => app.name === "big-brothers-operations");
+  const existing = getApps().find(app => app.name === "crystal-auto-spa-operations");
   if (existing) return existing;
   const raw = process.env.FIREBASE_ADMIN_KEY;
   if (!raw) throw new Error("Notification registration is not configured on the server.");
   let serviceAccount: Record<string, unknown>;
   try { serviceAccount = JSON.parse(raw) as Record<string, unknown>; }
   catch { throw new Error("Server notification credentials are not valid JSON."); }
-  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "big-brothers-operations");
+  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "crystal-auto-spa-operations");
 }
 
 export async function POST(request: Request) {
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     }, { merge: true });
     return NextResponse.json({ registered: true }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
-    console.error("Big Brothers notification registration failed:", error instanceof Error ? error.message : "unknown error");
+    console.error("Crystal Auto Spa notification registration failed:", error instanceof Error ? error.message : "unknown error");
     return NextResponse.json({ error: "Notifications could not be registered. Check server configuration and try again." }, { status: 500, headers: { "Cache-Control": "no-store" } });
   }
 }

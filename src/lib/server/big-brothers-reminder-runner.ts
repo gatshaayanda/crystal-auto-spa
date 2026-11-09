@@ -3,12 +3,12 @@ import { getFirestore } from "firebase-admin/firestore";
 import { getMessaging } from "firebase-admin/messaging";
 
 function adminApp() {
-  const existing = getApps().find(app => app.name === "big-brothers-reminders");
+  const existing = getApps().find(app => app.name === "crystal-auto-spa-reminders");
   if (existing) return existing;
   const raw = process.env.FIREBASE_ADMIN_KEY;
   if (!raw) throw new Error("FIREBASE_ADMIN_KEY is missing.");
   const serviceAccount = JSON.parse(raw) as Record<string, unknown>;
-  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "big-brothers-reminders");
+  return initializeApp({ credential: cert(serviceAccount as Parameters<typeof cert>[0]), projectId: "vulas-car-wash" }, "crystal-auto-spa-reminders");
 }
 
 export async function runVulaBookingReminders() {
@@ -36,7 +36,7 @@ export async function runVulaBookingReminders() {
     const result = await messaging.sendEachForMulticast({
       tokens,
       notification: {
-        title: "Your Big Brothers Car Wash booking is coming up",
+        title: "Your Crystal Auto Spa booking is coming up",
         body: String(booking.data().serviceName || "Your car wash") + " is scheduled within the next 30 minutes."
       },
       data: { link: "/#my-wash", bookingId: booking.id }
