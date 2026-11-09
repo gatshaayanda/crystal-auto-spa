@@ -59,6 +59,10 @@ export async function saveService(data: { id?: string; name: string; description
   const ref = data.id ? doc(db, "services", data.id) : doc(collection(db, "services"));
   await setDoc(ref, { ...data, id: ref.id, updatedAt: new Date().toISOString() }, { merge: true });
 }
+export async function deleteService(id: string) {
+  if (!id.trim()) throw new Error("Choose a service before deleting it.");
+  await deleteDoc(doc(db, "services", id));
+}
 export async function saveGalleryItem(data: { id?: string; title: string; imageUrl: string; mediaType?: "image" | "video"; description: string; active: boolean }) {
   const ref = data.id ? doc(db, "gallery", data.id) : doc(collection(db, "gallery"));
   await setDoc(ref, { ...data, id: ref.id, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() }, { merge: true });
