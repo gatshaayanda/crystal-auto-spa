@@ -1,4 +1,4 @@
-name: Verify Iteration 13
+name: Crystal Auto Spa quality checks
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: verify-${{ github.ref }}
+  group: crystal-auto-spa-verify-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout source
+      - name: Checkout Crystal Auto Spa
         uses: actions/checkout@v4
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -30,6 +30,8 @@ jobs:
         run: npm ci
       - name: Verify project identity and PWA assets
         run: npm run verify:identity
+      - name: TypeScript
+        run: npx tsc --noEmit
       - name: Lint
         run: npm run lint
       - name: Production build
