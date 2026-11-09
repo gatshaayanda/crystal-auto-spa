@@ -21,8 +21,8 @@ function matchesWord(input: string, expected: string) {
 }
 export async function POST(request: Request) {
   try {
-    const expected = process.env.CRYSTAL_AUTO_SPA_OPERATIONS_WORD;
-    if (!expected) return NextResponse.json({ error: "Staff sign-in is not configured. Set CRYSTAL_AUTO_SPA_OPERATIONS_WORD in the server environment." }, { status: 503 });
+    const expected = process.env.ADMIN_PASSWORD;
+    if (!expected) return NextResponse.json({ error: "Staff sign-in is not configured. Set ADMIN_PASSWORD in the server environment." }, { status: 503 });
     const body = await request.json().catch(() => null) as { word?: unknown } | null;
     const word = typeof body?.word === "string" ? body.word : "";
     if (!matchesWord(word, expected)) return NextResponse.json({ error: "Access denied. Check the staff access word and try again." }, { status: 401 });
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     const token = await adminAuth.createCustomToken(uid, { bbStaffSessionExpiresAt });
     return NextResponse.json({ token }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
-    console.error("Vula staff login failed:", error instanceof Error ? error.message : "unknown error");
+    console.error("Crystal Auto Spa staff login failed:", error instanceof Error ? error.message : "unknown error");
     return NextResponse.json({ error: "Staff sign-in is temporarily unavailable. Check server configuration." }, { status: 500 });
   }
 }

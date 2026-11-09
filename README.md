@@ -25,12 +25,12 @@ The protected `/admin` workspace retains bookings, queue, services, business set
 Firebase Storage is not used. There is no `storage.rules` file or Firebase Storage deployment configuration. Firestore security rules and indexes remain separate.
 
 ## Owner-managed configuration
-The owner will create and configure the independent Firebase project/database. No source-project ID or credentials are included. Copy `.env.example` to `.env.local` and provide the values once the project is ready.
+The app uses the recycled Atlas Firebase project/database from Ravi. The owner manages its Firebase console configuration and access. Copy `.env.example` to `.env.local` and provide the values below.
 
 Required configuration includes:
-- Public Firebase web config: `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID`.
+- Public Firebase web config: `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID`.
 - Server Firebase service account JSON: `FIREBASE_ADMIN_KEY`; optionally set `FIREBASE_PROJECT_ID` if required by the owner's service-account setup.
-- Staff sign-in and reminder secrets: `CRYSTAL_AUTO_SPA_OPERATIONS_WORD`, `CRYSTAL_AUTO_SPA_REMINDER_CRON_SECRET`.
+- Staff sign-in and reminder secrets: `ADMIN_PASSWORD`, `CRYSTAL_AUTO_SPA_REMINDER_CRON_SECRET`.
 - Media upload token: `UPLOADTHING_TOKEN`.
 - Push notifications: `NEXT_PUBLIC_FIREBASE_VAPID_KEY` when configured.
 

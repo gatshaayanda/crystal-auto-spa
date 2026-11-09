@@ -11,7 +11,7 @@
 - Inspect current branch/head and the exact files/flows before editing. Make focused changes in place; never reclone over existing work or rewrite history.
 - Preserve working authentication, Firestore data contracts, CRUD, booking, queue, receipts, account ownership, notifications, chatbot and PWA behavior unless the owner explicitly authorizes a change.
 - On unexpected behavior: stop, inspect the actual state and first failure, fix that failure only, then verify.
-- Do not add Firebase Storage or Firebase Storage rules. The owner will configure the independent Firebase project/database. Do not hardcode or reuse another project's project ID, credentials, tokens, customer data or deployment identifiers.
+- Do not add Firebase Storage or Firebase Storage rules. The owner manages the recycled Atlas Firebase project/database originally from Ravi; this is the configured data source for Crystal Auto Spa. The owner manages project access and Firebase setup. Do not hardcode or reuse another project's project ID, credentials, tokens, customer data or deployment identifiers.
 - Never claim a build, test, push, device test or deployment succeeded without evidence. The owner handles Vercel unless delegated.
 
 ## Customer journeys
