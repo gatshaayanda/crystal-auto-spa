@@ -88,7 +88,7 @@ export default function PwaRegister() {
     {offline && <div className="offlineBanner" role="status" aria-live="polite">Offline · New requests stay on this device until the server confirms they have synced.</div>}
     {!offline && reconnecting && <div className="offlineBanner reconnectingBanner" role="status" aria-live="polite">Reconnected · Crystal Auto Spa can reach the network again. Pending requests still need server confirmation.</div>}
     {installable && !installCardDismissed && <aside className="af-install-card" aria-label="Install Crystal Auto Spa">
-      <div className="af-install-brand"><span className="af-install-mark" aria-hidden="true">C<span>✦</span></span><span><strong>BIG BROTHERS</strong><small>CAR WASH · G-WEST</small></span></div>
+      <div className="af-install-brand"><img className="af-install-mark crystal-install-icon" src="/crystal-auto-spa-icon.svg" alt="" /><span><strong>CRYSTAL AUTO SPA</strong><small>MOGODITSHANE • BOTSWANA</small></span></div>
       <button className="af-install-close" type="button" aria-label="Dismiss install prompt" onClick={() => setInstallCardDismissed(true)}>×</button>
       <button className="af-install-action" type="button" onClick={() => void install()}>Install Crystal Auto Spa <span aria-hidden="true">↗</span></button>
     </aside>}

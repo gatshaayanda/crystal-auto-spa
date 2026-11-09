@@ -164,10 +164,10 @@ export default function ReceiptView({ token }: { token: string }) {
   }
 
   if (loading) return <main className="receipt-page"><section className="receipt-card"><p>Loading secure receipt…</p></section></main>;
-  if (error || !receipt) return <main className="receipt-page"><section className="receipt-card"><span className="receipt-mark">C</span><p className="big-brothers-eyebrow">BIG BROTHERS CAR WASH</p><h1>Receipt unavailable.</h1><p>{error || "This receipt link is invalid or has expired."}</p><Link className="big-brothers-button primary" href="/">Return to Crystal Auto Spa ↗</Link></section></main>;
+  if (error || !receipt) return <main className="receipt-page"><section className="receipt-card"><img className="crystal-brand-icon receipt-mark" src="/crystal-auto-spa-icon.svg" alt="" /><p className="big-brothers-eyebrow">CRYSTAL AUTO SPA</p><h1>Receipt unavailable.</h1><p>{error || "This receipt link is invalid or has expired."}</p><Link className="big-brothers-button primary" href="/">Return to Crystal Auto Spa ↗</Link></section></main>;
 
   return <main className="receipt-page"><section className="receipt-card">
-    <header className="receipt-brand"><span className="receipt-mark">BB</span><span><strong>BIG BROTHERS CAR WASH</strong><small>{receipt.locationName}</small></span></header>
+    <header className="receipt-brand"><img className="crystal-brand-icon receipt-mark" src="/crystal-auto-spa-icon.svg" alt="" /><span><strong>CRYSTAL AUTO SPA</strong><small>{receipt.locationName}</small></span></header>
     <p className="big-brothers-eyebrow">{receipt.receiptKind === "walk-in-ticket" ? "WALK-IN SERVICE RECEIPT" : "COMPLETED WASH · SECURE RECEIPT"}</p>
     <h1>{receipt.receiptKind === "walk-in-ticket" ? "Your walk-in service receipt." : "Your wash receipt."}</h1>
     <p className="receipt-reference">Reference <strong>{receipt.receiptRef}</strong></p>
