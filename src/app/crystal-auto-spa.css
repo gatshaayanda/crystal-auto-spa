@@ -131,3 +131,24 @@
   .bb-cinema-primary-action { min-height: 58px; }
   .admin-vula .admin-record { align-items: flex-start; gap: 12px; }
 }
+
+.crystal-brand-icon {
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border-radius: 13px;
+}
+.crystal-brand-icon.receipt-mark { width: 48px; height: 48px; border-radius: 13px; }
+.crystal-brand-icon.customer-account-mark { width: 42px; height: 42px; border-radius: 13px; }
+.crystal-install-icon {
+  display: block;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border-radius: 12px;
+  background: transparent !important;
+  padding: 0 !important;
+}

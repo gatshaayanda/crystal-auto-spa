@@ -39,7 +39,7 @@ function render(size) {
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
     if (!insideRoundedRect(x,y,size,radius)) { put(x,y,[0,0,0,0]); continue; }
     put(x,y,palette.background);
-    if (insideDrop(x,y,size*.92)) {
+    if (insideDrop(x,y,size)) {
       const blend = Math.min(1,Math.max(0,y/size));
       put(x,y,[Math.round(28+(166-28)*blend),Math.round(117+(229-117)*blend),Math.round(232+(255-232)*blend),255]);
     }
