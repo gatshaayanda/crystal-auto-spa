@@ -139,7 +139,7 @@ export async function POST(request: Request) {
       const racerId = String(body.racerId || "");
       const track = String(body.track || "");
       if (!divisions.some(d => d.tracks.includes(track))) {
-        return NextResponse.json({ error: "Choose a valid Vula circuit." }, { status: 400 });
+        return NextResponse.json({ error: "Choose a valid Crystal Auto Spa circuit." }, { status: 400 });
       }
       const profile = await profileRef.get();
       const racers = (profile.data()?.racers || []) as Racer[];

@@ -137,11 +137,11 @@ export default function LocationWeather({ showLocationGuide = true }: { showLoca
     : weather.weather_code >= 95 ? { emoji: "⛈️", title: "Stormy skies in Mogoditshane.", detail: "Put safety first. Check with the team before making the trip." }
     : weather.wind_speed_10m >= 25 ? { emoji: "💨", title: "Wind and dust on the move.", detail: "Been on dusty roads? Your ride deserves a little care." }
     : weather.temperature_2m >= 32 ? { emoji: "☀️", title: "Gaborone is bringing the heat!", detail: "Keep cool out there. When you're ready, bring your ride through." }
-    : weather.weather_code === 0 ? { emoji: "☀️", title: "Looking like a bright day.", detail: "A good time to give your ride some attention. The Brothers are here to help." }
+    : weather.weather_code === 0 ? { emoji: "☀️", title: "Looking like a bright day.", detail: "A good time to give your ride some attention. The Crystal Auto Spa team is here to help." }
     : { emoji: "🌤️", title: "Whatever the weather, we've got your ride.", detail: "Make your next wash easy: join the queue or plan a return visit." };
 
   return <>
-    <section className="big-brothers-section location-weather-section" aria-label="Gaborone weather">
+    <section className="big-brothers-section location-weather-section" aria-label="Mogoditshane area weather">
       <div className="bb-weather-card">
         <div className="bb-weather-main">
           <p className="big-brothers-eyebrow">🚘 CRYSTAL AUTO SPA DAILY DRIVE · MOGODITSHANE</p>
