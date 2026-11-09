@@ -48,7 +48,7 @@ export async function GET(request: Request) {
     }
     return NextResponse.json({ configured: true, capacity, slots, message: slots.length ? "Choose an available preferred time. Staff will still confirm the request." : "No slots are currently available for this day. Choose another date." }, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {
-    console.error("Big Brothers availability lookup failed:", error instanceof Error ? error.message : "unknown error");
+    console.error("Crystal Auto Spa availability lookup failed:", error instanceof Error ? error.message : "unknown error");
     return NextResponse.json({ configured: false, slots: [], message: "Availability could not be checked. Please retry or ask staff." }, { status: 503, headers: { "Cache-Control": "no-store" } });
   }
 }
