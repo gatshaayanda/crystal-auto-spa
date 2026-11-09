@@ -50,9 +50,12 @@ for (const file of ["src/app/layout.tsx", "src/app/manifest.ts", "src/app/page.t
 if (exists(".firebaserc")) failures.push("Remove the inherited Firebase project binding before owner configuration.");
 if (exists("storage.rules")) failures.push("Firebase Storage rules must not be part of this project; media uploads use UploadThing.");
 if (read("firebase.json").includes('"storage"')) failures.push("Firebase CLI config still references Firebase Storage.");
-if (read(".env.example").includes("vulas-car-wash") || read(".env.example").includes("NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET")) {
-  failures.push("Environment template still references the inherited Firebase project or Storage.");
+const envExample = read(".env.example");
+if (envExample.includes("vulas-car-wash") || /firebase\\/storage|storage\\.rules|uploadBytes\\(|getDownloadURL\\(/.test(envExample)) {
+  failures.push("Environment template still references the inherited Firebase project or Firebase Storage media integration.");
 }
+// NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET is part of Firebase's web-app configuration;
+// it does not enable or use Firebase Storage. All application media uploads use UploadThing.
 if (exists("public/manifest.webmanifest")) failures.push("Remove the stale public manifest so the Next.js manifest route is authoritative.");
 
 if (failures.length) {
