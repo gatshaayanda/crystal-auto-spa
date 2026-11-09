@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   applicationName: "Crystal Auto Spa",
   keywords: ["Crystal Auto Spa", "car wash", "Mogoditshane", "Botswana"],
   alternates: { canonical: "/" },
-  openGraph: { type: "website", url: siteUrl, siteName: "Crystal Auto Spa", title: "Crystal Auto Spa", description: "Car wash bookings, mobile-service requests and live staff operations." },
+  openGraph: { type: "website", url: siteUrl, siteName: "Crystal Auto Spa", title: "Crystal Auto Spa", description: "Car-care services, wash bookings and customer visit records." },
   twitter: { card: "summary", title: "Crystal Auto Spa", description: "Car wash bookings, mobile-service requests and live staff operations." },
   icons: {
     icon: [

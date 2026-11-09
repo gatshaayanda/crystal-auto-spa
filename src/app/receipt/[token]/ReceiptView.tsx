@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getIdToken, GoogleAuthProvider, linkWithPopup, signInAnonymously, signInWithPopup, signOut } from "firebase/auth";
+import { getIdToken, GoogleAuthProvider, linkWithPopup, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase/client";
 import { useUploadThing } from "@/lib/uploadthing";
 
@@ -83,7 +83,6 @@ export default function ReceiptView({ token }: { token: string }) {
     setPhotoBusy(true);
     setPhotoMessage("Uploading photo securely…");
     try {
-      const user = auth.currentUser || (await signInAnonymously(auth)).user;
       const uploadedFiles = await startReceiptPhotoUpload([photoFile]);
       const uploaded = uploadedFiles?.[0];
       const imageUrl = uploaded?.ufsUrl || uploaded?.url;
