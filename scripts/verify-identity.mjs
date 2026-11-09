@@ -33,9 +33,10 @@ const sw = read("public/sw.js");
 for (const value of ["crystal-auto-spa-shell-v1", "crystal-auto-spa-game-v1", "/offline", "__CRYSTAL_AUTO_SPA_FIREBASE_CONFIG__"]) {
   if (!sw.includes(value)) failures.push("Service worker is missing " + value + ".");
 }
-for (const value of ["big-brothers-shell-", "big-brothers-game-", "big-brothers-media-", "vula-shell-", "iteration13-shell-", "theplug-shell-", "__BIG_BROTHERS_FIREBASE_CONFIG__"]) {
-  if (sw.includes(value)) failures.push("Service worker retains inherited identity/configuration: " + value);
-}
+const cacheNames = ["CACHE_VERSION", "GAME_CACHE", "MEDIA_CACHE"].map(name => sw.match(new RegExp("const " + name + ' = "([^"]+)"'))?.[1] || "");
+if (cacheNames.some(name => !name.startsWith("crystal-auto-spa-"))) failures.push("Service worker cache namespaces are not isolated to Crystal Auto Spa.");
+if (sw.includes("__BIG_BROTHERS_FIREBASE_CONFIG__")) failures.push("Service worker still uses the inherited Firebase messaging config name.");
+
 requireText("src/app/page.tsx", ["Crystal Auto Spa", "Join the walk-in queue", "bookings", "queueEntries", "fleetRequests", "syncOfflineRequests", 'const pendingKey = "crystal-auto-spa:offline-requests:v1";']);
 requireText("src/lib/firebase/big-brothers-data.ts", ["subscribeBookings", "subscribeQueue", "subscribeFleet", "subscribeServices", "subscribeSettings"]);
 requireText("firestore.rules", ["match /bookings/", "match /queueEntries/", "match /fleetRequests/", "function isAdmin()"]);
