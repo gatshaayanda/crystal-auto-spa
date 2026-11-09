@@ -9,28 +9,28 @@ try {
   console.warn("Background messaging is unavailable; offline app-shell support remains enabled.", error);
 }
 
-let vulaMessaging = null;
+let crystalMessaging = null;
 try {
-  const config = self.__BIG_BROTHERS_FIREBASE_CONFIG__;
+  const config = self.__CRYSTAL_AUTO_SPA_FIREBASE_CONFIG__;
   if (config && config.apiKey && config.projectId && config.messagingSenderId && config.appId) {
     firebase.initializeApp(config);
-    vulaMessaging = firebase.messaging();
-    vulaMessaging.onBackgroundMessage((payload) => {
+    crystalMessaging = firebase.messaging();
+    crystalMessaging.onBackgroundMessage((payload) => {
       if (payload.notification) return;
-      const title = payload.data?.title || "Big Brothers Car Wash update";
+      const title = payload.data?.title || "Crystal Auto Spa update";
       const options = {
         body: payload.data?.body || "Open the app to check your latest information.",
-        icon: "/big-brothers-icon-192.png",
-        badge: "/big-brothers-icon-192.png",
+        icon: "/crystal-auto-spa-icon-192.png",
+        badge: "/crystal-auto-spa-icon-192.png",
         data: { link: payload.data?.link || "/account" },
       };
       self.registration.showNotification(title, options);
     });
   } else {
-    console.error("Big Brothers Car Wash Firebase Messaging web config is incomplete.");
+    console.error("Crystal Auto Spa Firebase Messaging web config is incomplete.");
   }
 } catch (error) {
-  console.error("Big Brothers Car Wash Firebase Messaging service worker could not initialize.", error);
+  console.error("Crystal Auto Spa Firebase Messaging service worker could not initialize.", error);
 }
 
 self.addEventListener("notificationclick", (event) => {
@@ -48,16 +48,16 @@ self.addEventListener("notificationclick", (event) => {
   }));
 });
 
-const CACHE_VERSION = "big-brothers-shell-v3";
-const GAME_CACHE = "big-brothers-game-v2";
-const MEDIA_CACHE = "big-brothers-media-v2";
+const CACHE_VERSION = "crystal-auto-spa-shell-v1";
+const GAME_CACHE = "crystal-auto-spa-game-v1";
+const MEDIA_CACHE = "crystal-auto-spa-media-v1";
 const SHELL_CACHE = CACHE_VERSION;
 const STATIC_LIMIT = 160;
 const PUBLIC_PAGE_LIMIT = 16;
 const APP_SHELL = [
   "/", "/games", "/games/career", "/offline", "/iphone-install", "/iphone-install.svg",
-  "/big-brothers-icon.svg", "/big-brothers-icon-180.png", "/big-brothers-icon-192.png",
-  "/big-brothers-icon-512.png", "/manifest.webmanifest"
+  "/crystal-auto-spa-icon.svg", "/crystal-auto-spa-icon-180.png", "/crystal-auto-spa-icon-192.png",
+  "/crystal-auto-spa-icon-512.png", "/manifest.webmanifest"
 ];
 const RACING_MANIFEST = "/game-assets/racing-kit/manifest.json";
 
@@ -119,7 +119,7 @@ async function precacheRacingAssets() {
 
     const modelUrl = new URL(selected.path, self.location.origin);
     if (modelUrl.origin !== self.location.origin || !modelUrl.pathname.startsWith("/game-assets/racing-kit/")) {
-      console.warn("Skipped a racing asset outside Big Brothers local asset directory.");
+      console.warn("Skipped a racing asset outside Crystal Auto Spa local asset directory.");
       return;
     }
     const modelResponse = await fetchAndCache(modelUrl.href, GAME_CACHE);
