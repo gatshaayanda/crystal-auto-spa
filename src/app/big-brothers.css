@@ -1214,3 +1214,25 @@
  .customer-account-compact{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
  .customer-account-footer{padding-bottom:90px}
 }
+
+
+/* Crystal Auto Spa hero media: keep the film visibly above the hero background. */
+.bb-cinema-hero { isolation: isolate; }
+.bb-cinema-video {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 72% 24%, #174d89, #06152d 70%);
+}
+.bb-cinema-video video {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 52%;
+}
+.bb-cinema-shade { z-index: 1; }
+.bb-cinema-copy { position: relative; z-index: 2; }
