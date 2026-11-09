@@ -86,8 +86,8 @@ export default function ReceiptView({ token }: { token: string }) {
       const uploadedFiles = await startReceiptPhotoUpload([photoFile]);
       const uploaded = uploadedFiles?.[0];
       const imageUrl = uploaded?.ufsUrl || uploaded?.url;
-      if (!imageUrl) throw new Error("Upload completed without a media URL. Try again.");
-      const storagePath = uploaded.key || "";
+      if (!uploaded || !imageUrl || !uploaded.key) throw new Error("Upload completed without a media URL or file key. Try again.");
+      const storagePath = uploaded.key;
       const response = await fetch("/api/receipts/" + encodeURIComponent(token) + "/photo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
