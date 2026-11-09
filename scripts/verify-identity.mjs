@@ -5,66 +5,58 @@ const root = process.cwd();
 const failures = [];
 function read(relative) { return fs.readFileSync(path.join(root, relative), "utf8"); }
 function exists(relative) { return fs.existsSync(path.join(root, relative)); }
+function requireText(file, values) {
+  const source = read(file);
+  for (const value of values) if (!source.includes(value)) failures.push(file + " is missing " + value + ".");
+}
+function forbidText(file, values) {
+  const source = read(file);
+  for (const value of values) if (source.includes(value)) failures.push(file + " still contains " + value + ".");
+}
 
-const appManifest = read("src/app/manifest.ts");
-if (!appManifest.includes("Big Brothers Car Wash") || !appManifest.includes('short_name: "Big Bros"') || appManifest.includes("Iteration 13") || appManifest.includes("Vula's Car Wash")) {
+const manifest = read("src/app/manifest.ts");
+if (!manifest.includes("Crystal Auto Spa") || !manifest.includes('short_name: "Crystal Spa"')
+  || manifest.includes("Big Brothers Car Wash") || manifest.includes("Vula's Car Wash") || manifest.includes("Iteration 13")) {
   failures.push("App manifest identity mismatch.");
 }
-for (const icon of ["big-brothers-icon-180.png", "big-brothers-icon-192.png", "big-brothers-icon-512.png"]) {
-  if (!appManifest.includes("/" + icon)) failures.push("Manifest is missing " + icon + ".");
+for (const icon of ["crystal-auto-spa-icon-180.png", "crystal-auto-spa-icon-192.png", "crystal-auto-spa-icon-512.png"]) {
+  if (!manifest.includes("/" + icon)) failures.push("Manifest is missing " + icon + ".");
 }
-if (!exists("public/big-brothers-icon.svg") || !exists("scripts/generate-icons.mjs")) failures.push("Branded icon source or PNG generator is missing.");
-if (!appManifest.includes('form_factor: "wide"') || !appManifest.includes("/pwa-screenshot-wide.svg")) failures.push("Wide PWA screenshot is missing from the manifest.");
-if (!appManifest.includes("/pwa-screenshot-mobile.svg")) failures.push("Mobile PWA screenshot is missing from the manifest.");
-for (const screenshot of ["pwa-screenshot-wide.svg", "pwa-screenshot-mobile.svg"]) {
-  if (!exists("public/" + screenshot)) failures.push("PWA screenshot asset missing: " + screenshot);
+for (const asset of ["public/crystal-auto-spa-icon.svg", "public/crystal-auto-spa-logo.svg", "scripts/generate-icons.mjs"]) {
+  if (!exists(asset)) failures.push("Crystal Auto Spa brand asset is missing: " + asset);
 }
-
-const layout = read("src/app/layout.tsx");
-for (const text of ["Big Brothers Car Wash", "big-brothers.css", "PwaRegister", 'manifest: "/manifest.webmanifest"']) {
-  if (!layout.includes(text)) failures.push("Layout is missing " + text + ".");
-}
-const pwaRegister = read("src/app/pwa-register.tsx");
-for (const text of ["beforeinstallprompt", "prompt.prompt()", "af-install-card", "af-install-close", "af-install-action"]) {
-  if (!pwaRegister.includes(text)) failures.push("Africhiko install lifecycle is missing " + text + ".");
-}
-const pwaCss = read("src/app/pwa.css");
-for (const text of [".af-install-card", ".af-install-close", ".af-install-action"]) {
-  if (!pwaCss.includes(text)) failures.push("Africhiko install-card styling is missing " + text + ".");
-}
+requireText("src/app/layout.tsx", ["Crystal Auto Spa", "crystal-auto-spa.css", "PwaRegister", 'manifest: "/manifest.webmanifest"']);
+requireText("src/app/crystal-auto-spa.css", ["--crystal-navy", "--crystal-blue", ".bb-cinema-primary-action"]);
+requireText("src/app/pwa-register.tsx", ["beforeinstallprompt", "prompt.prompt()", "af-install-card", "af-install-close", "af-install-action"]);
+requireText("src/app/pwa.css", [".af-install-card", ".af-install-close", ".af-install-action"]);
 const sw = read("public/sw.js");
-if (!sw.includes("big-brothers-shell-v1") || !sw.includes("big-brothers-game-v1") || !sw.includes("/offline")) {
-  failures.push("Service-worker cache isolation or offline fallback is missing.");
+for (const value of ["crystal-auto-spa-shell-v1", "crystal-auto-spa-game-v1", "/offline", "__CRYSTAL_AUTO_SPA_FIREBASE_CONFIG__"]) {
+  if (!sw.includes(value)) failures.push("Service worker is missing " + value + ".");
 }
-if (!sw.includes("const cacheCopy = response.clone();")) failures.push("Manifest response-cloning protection is missing.");
-if (sw.includes("vula-shell-") || sw.includes("iteration13-shell-") || sw.includes("theplug-shell-")) {
-  failures.push("Service worker still contains a legacy cache namespace.");
+for (const value of ["big-brothers-shell-", "big-brothers-game-", "big-brothers-media-", "vula-shell-", "iteration13-shell-", "theplug-shell-", "__BIG_BROTHERS_FIREBASE_CONFIG__"]) {
+  if (sw.includes(value)) failures.push("Service worker retains inherited identity/configuration: " + value);
 }
-
-const home = read("src/app/page.tsx");
-for (const text of ["Big Brothers Car Wash", "Join the walk-in queue", 'useState<"book" | "queue" | "fleet">("queue")', "bookings", "queueEntries", "fleetRequests", "syncOfflineRequests"]) {
-  if (!home.includes(text)) failures.push("Customer app is missing " + text + ".");
+requireText("src/app/page.tsx", ["Crystal Auto Spa", "Join the walk-in queue", "bookings", "queueEntries", "fleetRequests", "syncOfflineRequests", 'const pendingKey = "crystal-auto-spa:offline-requests:v1";']);
+requireText("src/lib/firebase/big-brothers-data.ts", ["subscribeBookings", "subscribeQueue", "subscribeFleet", "subscribeServices", "subscribeSettings"]);
+requireText("firestore.rules", ["match /bookings/", "match /queueEntries/", "match /fleetRequests/", "function isAdmin()"]);
+requireText("src/app/api/uploadthing/core.ts", ["createUploadthing", "readReceiptByToken", "requireBigBrothersStaff", "maxFileSize: \"4MB\"", "maxFileSize: \"16MB\""]);
+for (const file of ["src/app/admin/big-brothers-dashboard.tsx", "src/app/account/page.tsx", "src/app/receipt/[token]/ReceiptView.tsx", "src/app/ServiceMediaPicker.tsx"]) {
+  forbidText(file, ["firebase/storage", "uploadBytes(", "getDownloadURL("]);
 }
-if (!home.includes('const pendingKey = "big-brothers-car-wash:offline-requests:v1";')) failures.push("Offline request storage is not isolated to Big Brothers.");
-const data = read("src/lib/firebase/big-brothers-data.ts");
-for (const text of ["subscribeBookings", "subscribeQueue", "subscribeFleet", "subscribeServices", "subscribeSettings"]) {
-  if (!data.includes(text)) failures.push("Firebase data layer is missing " + text + ".");
+for (const file of ["src/app/layout.tsx", "src/app/manifest.ts", "src/app/page.tsx", "src/app/account/page.tsx", "src/app/admin/big-brothers-dashboard.tsx", "src/app/receipt/[token]/ReceiptView.tsx", "src/app/pwa-register.tsx", "src/app/offline/page.tsx", "src/app/iphone-install/page.tsx"]) {
+  forbidText(file, ["Big Brothers Car Wash", "Vula's Car Wash", "Iteration 13 | Service Studio"]);
 }
-const rules = read("firestore.rules");
-for (const text of ["match /bookings/", "match /queueEntries/", "match /fleetRequests/", "function isAdmin()"]) {
-  if (!rules.includes(text)) failures.push("Firestore security rules are missing " + text + ".");
-}
-for (const file of ["src/app/page.tsx", "src/app/layout.tsx", "src/app/manifest.ts", "src/app/iphone-install/page.tsx", "src/app/offline/page.tsx", "src/app/admin/big-brothers-dashboard.tsx"]) {
-  const source = read(file);
-  for (const identity of ["Vula's Car Wash", "Vula's team", "Vula's system", "Iteration 13 | Service Studio", "The Plug"]) {
-    if (source.includes(identity)) failures.push(file + " contains inherited identity text: " + identity);
-  }
+if (exists(".firebaserc")) failures.push("Remove the inherited Firebase project binding before owner configuration.");
+if (exists("storage.rules")) failures.push("Firebase Storage rules must not be part of this project; media uploads use UploadThing.");
+if (read("firebase.json").includes('"storage"')) failures.push("Firebase CLI config still references Firebase Storage.");
+if (read(".env.example").includes("vulas-car-wash") || read(".env.example").includes("NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET")) {
+  failures.push("Environment template still references the inherited Firebase project or Storage.");
 }
 if (exists("public/manifest.webmanifest")) failures.push("Remove the stale public manifest so the Next.js manifest route is authoritative.");
 
 if (failures.length) {
-  console.error("BIG BROTHERS IDENTITY / FOUNDATION VERIFICATION FAILED");
+  console.error("CRYSTAL AUTO SPA IDENTITY / FOUNDATION VERIFICATION FAILED");
   failures.forEach(item => console.error(" - " + item));
   process.exit(1);
 }
-console.log("BIG BROTHERS FOUNDATION VERIFIED — identity, manifest, generated icons, Africhiko install card, isolated PWA caches, walk-in intake and Firestore rules are present.");
+console.log("CRYSTAL AUTO SPA FOUNDATION VERIFIED — identity, UploadThing media path, Firestore rules, protected install lifecycle and isolated PWA caches are present.");
